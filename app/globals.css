@@ -113,3 +113,94 @@ body {
     transition: none;
   }
 }
+
+
+
+/* LOYAL PROFESSIONAL COLOR UPGRADE */
+:root {
+  color-scheme: dark;
+  --loyal-cyan: #22d3ee;
+  --loyal-blue: #3b82f6;
+  --loyal-violet: #a78bfa;
+  --loyal-gold: #fbbf24;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: #070b16;
+  background-image:
+    radial-gradient(ellipse at 8% 0%, rgba(34, 211, 238, .10), transparent 34%),
+    radial-gradient(ellipse at 95% 18%, rgba(139, 92, 246, .10), transparent 32%),
+    radial-gradient(ellipse at 50% 100%, rgba(59, 130, 246, .07), transparent 40%);
+  background-attachment: fixed;
+}
+
+::selection {
+  color: #07101f;
+  background: #67e8f9;
+}
+
+a, button, input, select, textarea {
+  transition:
+    color .2s ease,
+    background-color .2s ease,
+    border-color .2s ease,
+    box-shadow .2s ease,
+    transform .2s ease;
+}
+
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+  outline: 2px solid var(--loyal-cyan);
+  outline-offset: 4px;
+}
+
+button:not(:disabled):active {
+  transform: scale(.98);
+}
+
+input, select, textarea {
+  accent-color: var(--loyal-cyan);
+}
+
+[class*="rounded-2xl"][class*="border"]:hover,
+[class*="rounded-3xl"][class*="border"]:hover {
+  box-shadow: 0 12px 36px rgba(34, 211, 238, .08);
+}
+
+.loyal-rainbow {
+  background-image: linear-gradient(
+    90deg,
+    #22d3ee,
+    #60a5fa,
+    #c084fc,
+    #f472b6,
+    #fbbf24,
+    #34d399,
+    #22d3ee
+  );
+  background-size: 250% auto;
+  color: transparent;
+  -webkit-background-clip: text;
+  background-clip: text;
+  animation: loyal-color-flow 7s linear infinite;
+}
+
+@keyframes loyal-color-flow {
+  to { background-position: 250% center; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .01ms !important;
+  }
+}
