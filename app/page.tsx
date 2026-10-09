@@ -131,7 +131,7 @@ export default function Home() {
           <p className="mt-4 text-slate-400">अपने लक्ष्य के अनुसार परीक्षा चुनें।</p>
           <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
             {exams.map(([name, desc], i) => (
-              <a key={name} href="/courses" className="rounded-2xl border border-white/10 bg-white/[0.03] p-5 transition hover:border-cyan-400/50 hover:bg-cyan-400/[0.05]">
+              <a key={name} href={name === "UPSC" ? "/upsc" : "/courses"} className="rounded-2xl border border-white/10 bg-white/[0.03] p-5 transition hover:border-cyan-400/50 hover:bg-cyan-400/[0.05]">
                 <span className="text-sm font-bold text-cyan-300">{String(i + 1).padStart(2, "0")}</span>
                 <h3 className="mt-4 text-lg font-bold">{name}</h3>
                 <p className="mt-2 text-sm text-slate-400">{desc}</p>
