@@ -29,6 +29,38 @@ export default function UPSCPage() {
           </p>
         </div>
 
+        <section className="mt-8">
+          <h2 className="mb-5 text-2xl font-black">
+            UPSC <span className="text-cyan-300">Batches</span>
+          </h2>
+
+          <a
+            href="/math-by-dhruv"
+            className="group block rounded-2xl border border-cyan-400/30 bg-gradient-to-br from-[#0b2340] to-[#07101f] p-6 transition hover:border-cyan-300 hover:shadow-xl hover:shadow-cyan-950/40 sm:p-8"
+          >
+            <div className="flex items-center gap-5">
+              <div className="flex h-16 w-16 shrink-0 items-center justify-center rounded-2xl bg-cyan-400/10 text-3xl text-cyan-300">
+                ∑
+              </div>
+              <div className="flex-1">
+                <p className="text-xs font-bold tracking-widest text-cyan-300">
+                  MATHEMATICS BATCH
+                </p>
+                <h3 className="mt-2 text-2xl font-black group-hover:text-cyan-300">
+                  Math by Dhruv Sir
+                </h3>
+                <p className="mt-2 text-slate-400">
+                  गणित की video classes · 5 Lectures
+                </p>
+              </div>
+              <span className="text-xl text-cyan-300">→</span>
+            </div>
+            <p className="mt-5 font-bold text-cyan-300">
+              Open Batch →
+            </p>
+          </a>
+        </section>
+
         <footer className="mt-16 border-t border-white/10 pt-6 text-center text-sm text-slate-500">
           © 2026 LOYAL Global Studies
           <p className="mt-2 font-bold">
