@@ -185,7 +185,7 @@ export default function Home() {
           </div>
         </div>
         <div className="border-t border-white/10 px-5 py-5 text-center text-sm text-slate-500">
-          © {new Date().getFullYear()} LOYAL Global Studies. All rights reserved.
+          © 2026 LOYAL Global Studies. All rights reserved.
           <p className="mt-2 font-semibold">DEVELOPER BY ❤️ LOYAL JI ❤️</p>
         </div>
       </footer>
