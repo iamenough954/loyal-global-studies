@@ -24,3 +24,38 @@ body {
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+/* LOYAL JI - Automatic Rainbow Animation */
+.loyal-rainbow {
+  display: inline-block;
+  font-weight: 900;
+  letter-spacing: 1px;
+  background: linear-gradient(
+    90deg,
+    #ff1744,
+    #ff9100,
+    #ffea00,
+    #00e676,
+    #00b0ff,
+    #651fff,
+    #f500ff,
+    #ff1744
+  );
+  background-size: 300% auto;
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: loyal-rainbow-flow 5s linear infinite;
+}
+
+@keyframes loyal-rainbow-flow {
+  from { background-position: 0% center; }
+  to { background-position: 300% center; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .loyal-rainbow {
+    animation: none;
+    background-position: center;
+  }
+}
