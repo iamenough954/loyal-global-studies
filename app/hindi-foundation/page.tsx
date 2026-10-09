@@ -73,14 +73,7 @@ export default function HindiFoundationPage() {
             <p className="mt-2 text-sm text-slate-400">
               Instructor: Jitendra Soni Sir
             </p>
-            <a
-              href={`https://www.youtube.com/watch?v=${lectures[active].videoId}`}
-              target="_blank"
-              rel="noreferrer"
-              className="mt-4 inline-block text-sm font-semibold text-cyan-300 underline"
-            >
-              YouTube पर भी देखें ↗
-            </a>
+
           </div>
         </section>
 
