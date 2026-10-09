@@ -37,9 +37,14 @@ export default function Home() {
             <a href="/results" className="hover:text-cyan-300">Results</a>
             <a href="/about" className="hover:text-cyan-300">About</a>
           </div>
-          <a href="/login" className="rounded-xl bg-cyan-400 px-4 py-2.5 text-sm font-bold text-slate-950 hover:bg-cyan-300">
-            Login
-          </a>
+          <div className="flex items-center gap-2">
+            <a href="/math-quiz" className="rounded-xl border border-cyan-400/40 px-3 py-2.5 text-sm font-bold text-cyan-300 hover:bg-cyan-400/10">
+              🎮 Game
+            </a>
+            <a href="/login" className="rounded-xl bg-cyan-400 px-4 py-2.5 text-sm font-bold text-slate-950 hover:bg-cyan-300">
+              Login
+            </a>
+          </div>
         </nav>
       </header>
 
