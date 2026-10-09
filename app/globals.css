@@ -59,3 +59,57 @@ body {
     background-position: center;
   }
 }
+
+/* ===== LOYAL PREMIUM RAINBOW FOOTER ===== */
+.loyal-rainbow {
+  display: inline-block;
+  font-weight: 900;
+  letter-spacing: 1.5px;
+  background: linear-gradient(
+    90deg,
+    #ff1744,
+    #ff9100,
+    #ffea00,
+    #00e676,
+    #00b0ff,
+    #651fff,
+    #f500ff,
+    #ff1744
+  );
+  background-size: 300% 100%;
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+  animation: loyal-rainbow-flow 5s linear infinite;
+  filter: drop-shadow(0 0 7px rgba(0, 200, 255, 0.22));
+}
+
+@keyframes loyal-rainbow-flow {
+  0% { background-position: 0% 50%; }
+  100% { background-position: 300% 50%; }
+}
+
+/* Premium card hover effect */
+.premium-card {
+  transition: transform 250ms ease, border-color 250ms ease,
+              box-shadow 250ms ease;
+}
+
+.premium-card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(34, 211, 238, 0.55);
+  box-shadow: 0 12px 35px rgba(8, 145, 178, 0.12);
+}
+
+::selection {
+  background: rgba(34, 211, 238, 0.3);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .loyal-rainbow,
+  .premium-card {
+    animation: none;
+    transition: none;
+  }
+}
