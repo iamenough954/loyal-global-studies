@@ -5,6 +5,36 @@ const subjects = [
     icon: "⚛️",
     color: "border-sky-400/30",
     description: "भौतिक विज्ञान की तैयारी और lecture series।",
+    lectures: [
+      {
+        title: "Orientation Class",
+        url: "https://www.youtube.com/embed/v5m1FR_xAXw",
+      },
+      {
+        title: "Lecture 01",
+        url: "https://www.youtube.com/embed/Pxj6FHAPNI4",
+      },
+      {
+        title: "Lecture 02",
+        url: "https://www.youtube.com/embed/5cWkUraqL9Q",
+      },
+      {
+        title: "Lecture 03",
+        url: "https://www.youtube.com/embed/C_Z9Uq2aXzY",
+      },
+      {
+        title: "Lecture 04",
+        url: "https://www.youtube.com/embed/DEFA9_ILWyQ",
+      },
+      {
+        title: "Lecture 05",
+        url: "https://www.youtube.com/embed/kaOkCM_TpYk",
+      },
+      {
+        title: "Lecture 06",
+        url: "https://www.youtube.com/embed/tinIyzeJKAs",
+      },
+    ],
   },
   {
     title: "Biology",
@@ -93,9 +123,36 @@ export default function UPTGTSciencePage() {
                 {subject.description}
               </p>
 
-              <div className="mt-5 rounded-xl border border-white/10 bg-black/20 p-3 text-sm text-slate-400">
-                Lectures will appear here after they are added.
-              </div>
+              {subject.lectures ? (
+                <div className="mt-6 space-y-6">
+                  {subject.lectures.map((lecture) => (
+                    <div
+                      key={lecture.title}
+                      className="overflow-hidden rounded-xl border border-sky-400/20 bg-black/30"
+                    >
+                      <h4 className="p-3 font-bold text-sky-200">
+                        {lecture.title}
+                      </h4>
+
+                      <div className="aspect-video w-full">
+                        <iframe
+                          src={lecture.url}
+                          title={`${subject.title} - ${lecture.title}`}
+                          className="h-full w-full"
+                          loading="lazy"
+                          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                          referrerPolicy="strict-origin-when-cross-origin"
+                          allowFullScreen
+                        />
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <div className="mt-5 rounded-xl border border-white/10 bg-black/20 p-3 text-sm text-slate-400">
+                  Lectures will appear here after they are added.
+                </div>
+              )}
             </section>
           ))}
         </div>
