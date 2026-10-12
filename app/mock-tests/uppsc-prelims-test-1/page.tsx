@@ -3,6 +3,9 @@
 import { useEffect, useState } from "react";
 import rawData from "../../../data/uppcs_test1_questions_raw.json";
 import solutionData from "../../../data/uppcs_test1_solution_data.json";
+import bilingualData from "../../../data/uppcs_test1_bilingual.json";
+import BilingualLanguageSelector from "@/components/BilingualLanguageSelector";
+import type { TestLanguage } from "@/lib/bilingual-test";
 
 type Question = {
   id: number;
@@ -34,6 +37,8 @@ function getOptionText(text: string) {
 }
 
 export default function UppcsTestOnePage() {
+  const [language, setLanguage] = useState<TestLanguage>("en");
+  const [started, setStarted] = useState(false);
   const [current, setCurrent] = useState(0);
   const [answers, setAnswers] = useState<Record<number, string>>({});
   const [marked, setMarked] = useState<Record<number, boolean>>({});
@@ -41,7 +46,7 @@ export default function UppcsTestOnePage() {
   const [submitted, setSubmitted] = useState(false);
 
   useEffect(() => {
-    if (submitted) return;
+    if (!started || submitted) return;
 
     const timer = setInterval(() => {
       setSeconds((previous) => {
@@ -55,7 +60,7 @@ export default function UppcsTestOnePage() {
     }, 1000);
 
     return () => clearInterval(timer);
-  }, [submitted]);
+  }, [started, submitted]);
 
   const question = questions[current];
   const correct = questions.filter(
@@ -69,6 +74,58 @@ export default function UppcsTestOnePage() {
   const time = `${String(Math.floor(seconds / 3600)).padStart(2, "0")}:${String(
     Math.floor((seconds % 3600) / 60)
   ).padStart(2, "0")}:${String(seconds % 60).padStart(2, "0")}`;
+
+
+  const hindiReady = false; // Hindi translations are pending and must be verified.
+
+  if (!started) {
+    return (
+      <main className="min-h-screen bg-[#070b14] p-5 text-white">
+        <div className="mx-auto max-w-2xl rounded-3xl border border-white/10 bg-white/[0.03] p-6 sm:p-8">
+          <a href="/mock-tests" className="text-sm font-bold text-cyan-300">
+            ← Mock Tests
+          </a>
+          <h1 className="mt-6 text-2xl font-black sm:text-3xl">
+            UPPCS Prelims — Test 1
+          </h1>
+          <p className="mt-3 text-slate-300">
+            150 प्रश्न · 120 मिनट · सही उत्तर +1 · गलत उत्तर −⅓
+          </p>
+
+          <div className="mt-8">
+            <BilingualLanguageSelector
+              value={language}
+              onChange={setLanguage}
+            />
+          </div>
+
+          {language === "hi" && !hindiReady && (
+            <p className="mt-5 rounded-xl border border-amber-300/30 bg-amber-300/10 p-4 text-sm leading-6 text-amber-100">
+              हिंदी अनुवाद अभी तैयार और सत्यापित नहीं हैं। इस टेस्ट को
+              हिंदी माध्यम में शुरू करने से पहले सभी प्रश्नों और विकल्पों
+              का अनुवाद तथा सत्यापन पूरा करना होगा। अभी English चुनकर
+              अभ्यास कर सकते हैं।
+            </p>
+          )}
+
+          {language === "hi" && hindiReady && (
+            <p className="mt-5 text-sm text-emerald-300">
+              हिंदी अनुवाद सत्यापित हैं।
+            </p>
+          )}
+
+          <button
+            type="button"
+            disabled={language === "hi" && !hindiReady}
+            onClick={() => setStarted(true)}
+            className="mt-6 w-full rounded-xl bg-cyan-400 px-5 py-4 font-black text-slate-950 disabled:cursor-not-allowed disabled:opacity-40"
+          >
+            Start Test / परीक्षा शुरू करें
+          </button>
+        </div>
+      </main>
+    );
+  }
 
   if (!question) {
     return <main className="min-h-screen bg-slate-950 p-8 text-white">प्रश्न उपलब्ध नहीं हैं।</main>;
