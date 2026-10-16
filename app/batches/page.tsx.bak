@@ -1,0 +1,158 @@
+import Link from "next/link";
+
+const batches = [
+  {
+    title: "UPSC Foundation",
+    teacher: "LOYAL Faculty",
+    icon: "🏛️",
+    category: "CIVIL SERVICES",
+    description: "UPSC Prelims और Mains की व्यवस्थित तैयारी।",
+    subjects: ["General Studies", "Prelims", "Mains"],
+    href: "/login",
+    status: "LOCKED",
+  },
+  {
+    title: "UP TGT Science",
+    teacher: "UDAAN Batch",
+    icon: "🔬",
+    category: "COMPLETE BATCH",
+    description: "Science subjects की classes और lecture series।",
+    subjects: ["Physics", "Biology", "Computer", "Geography", "Chemistry"],
+    href: "/up-tgt-science",
+    status: "OPEN",
+  },
+  {
+    title: "Math by Dhruv Sir",
+    teacher: "Dhruv Sir",
+    icon: "∑",
+    category: "MATHEMATICS",
+    description: "गणित की video lectures और अभ्यास।",
+    subjects: ["Mathematics", "Video Lectures"],
+    href: "/math-by-dhruv",
+    status: "OPEN",
+  },
+  {
+    title: "Hindi Foundation",
+    teacher: "Jitendra Soni Sir",
+    icon: "📚",
+    category: "FREE COURSE",
+    description: "Hindi Foundation की free classes और lectures।",
+    subjects: ["Hindi Grammar", "Lecture Series"],
+    href: "/hindi-foundation",
+    status: "FREE",
+  },
+];
+
+export default function BatchesPage() {
+  return (
+    <main className="min-h-screen bg-[#070b16] px-5 py-8 text-white sm:px-8 sm:py-12">
+      <div className="mx-auto max-w-7xl">
+        <header className="flex flex-wrap items-center justify-between gap-4">
+          <Link href="/" className="font-black text-cyan-300 hover:text-white">
+            ← LOYAL GLOBAL STUDIES
+          </Link>
+          <Link
+            href="/courses"
+            className="rounded-xl border border-white/15 px-4 py-2 font-bold text-slate-300 hover:border-cyan-300 hover:text-cyan-300"
+          >
+            All Courses →
+          </Link>
+        </header>
+
+        <section className="relative mt-10 overflow-hidden rounded-3xl border border-cyan-300/20 bg-gradient-to-br from-[#123456] via-[#0b1930] to-[#080d19] p-7 sm:p-12">
+          <div className="pointer-events-none absolute -right-10 -top-16 h-64 w-64 rounded-full bg-cyan-400/10 blur-3xl" />
+          <div className="relative">
+            <p className="text-xs font-black tracking-[0.3em] text-cyan-300">
+              YOUR CLASSROOM STARTS HERE
+            </p>
+            <h1 className="mt-4 text-4xl font-black sm:text-6xl">
+              Explore Our
+              <span className="block text-cyan-300">Batches</span>
+            </h1>
+            <p className="mt-5 max-w-2xl leading-7 text-slate-300">
+              अपना लक्ष्य चुनें, batch खोलें और अपनी classes तक पहुँचें।
+              सभी learning options एक ही जगह।
+            </p>
+            <div className="mt-7 flex flex-wrap gap-3">
+              {["Subject-wise Classes", "Recorded Lectures", "Learn at Your Pace"].map((item) => (
+                <span key={item} className="rounded-full border border-cyan-300/20 bg-cyan-300/10 px-4 py-2 text-xs font-bold text-cyan-100">
+                  ✓ {item}
+                </span>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        <section className="mt-10">
+          <p className="text-xs font-black tracking-[0.25em] text-cyan-300">
+            SELECT YOUR PROGRAM
+          </p>
+          <div className="mt-2 flex flex-wrap items-end justify-between gap-3">
+            <h2 className="text-3xl font-black sm:text-4xl">Available Batches</h2>
+            <p className="text-sm text-slate-400">{batches.length} learning options</p>
+          </div>
+
+          <div className="mt-7 grid gap-6 sm:grid-cols-2 xl:grid-cols-3">
+            {batches.map((batch) => (
+              <article
+                key={batch.title}
+                className="group flex flex-col overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-br from-[#10213a] to-[#080e1b] transition duration-300 hover:-translate-y-1 hover:border-cyan-300/40 hover:shadow-xl"
+              >
+                <div className="flex min-h-36 items-center justify-between border-b border-white/10 bg-gradient-to-br from-cyan-300/10 to-blue-500/5 p-6">
+                  <span className="flex h-20 w-20 items-center justify-center rounded-3xl border border-cyan-300/20 bg-[#081326] text-5xl">
+                    {batch.icon}
+                  </span>
+                  <span className={`rounded-full border px-3 py-2 text-xs font-black ${
+                    batch.status === "FREE"
+                      ? "border-emerald-300/30 bg-emerald-300/10 text-emerald-300"
+                      : batch.status === "LOCKED"
+                        ? "border-amber-300/30 bg-amber-300/10 text-amber-200"
+                        : "border-cyan-300/30 bg-cyan-300/10 text-cyan-200"
+                  }`}>
+                    {batch.status === "LOCKED" ? "🔒 LOCKED" : batch.status === "FREE" ? "FREE" : "● OPEN"}
+                  </span>
+                </div>
+
+                <div className="flex flex-1 flex-col p-6">
+                  <p className="text-[10px] font-black tracking-[0.2em] text-cyan-300">{batch.category}</p>
+                  <h3 className="mt-3 text-2xl font-black group-hover:text-cyan-300">{batch.title}</h3>
+                  <p className="mt-2 text-sm font-semibold text-slate-400">By {batch.teacher}</p>
+                  <p className="mt-4 leading-7 text-slate-300">{batch.description}</p>
+
+                  <div className="mt-5 flex flex-wrap gap-2">
+                    {batch.subjects.map((subject) => (
+                      <span key={subject} className="rounded-lg border border-white/10 bg-white/[0.04] px-3 py-2 text-xs text-slate-300">
+                        {subject}
+                      </span>
+                    ))}
+                  </div>
+
+                  <div className="mt-auto pt-7">
+                    <Link
+                      href={batch.href}
+                      className={`flex w-full items-center justify-between rounded-xl px-5 py-4 font-black transition ${
+                        batch.status === "LOCKED"
+                          ? "border border-amber-300/30 bg-amber-300/10 text-amber-200 hover:bg-amber-300/20"
+                          : "bg-cyan-400 text-[#03101f] hover:bg-cyan-300"
+                      }`}
+                    >
+                      <span>{batch.status === "LOCKED" ? "Login to Continue" : batch.status === "FREE" ? "Start Free Course" : "Explore Batch"}</span>
+                      <span aria-hidden="true" className="text-xl">→</span>
+                    </Link>
+                  </div>
+                </div>
+              </article>
+            ))}
+          </div>
+        </section>
+
+        <footer className="mt-16 border-t border-white/10 pt-6 text-center text-sm text-slate-500">
+          © 2026 LOYAL Global Studies
+          <p className="mt-2 font-bold">
+            <span className="loyal-rainbow">DEVELOPER BY ❤️ LOYAL JI ❤️</span>
+          </p>
+        </footer>
+      </div>
+    </main>
+  );
+}

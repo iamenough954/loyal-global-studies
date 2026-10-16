@@ -1,0 +1,332 @@
+import Link from "next/link";
+
+export default function Home() {
+  return (
+    <div className="min-h-screen bg-gray-50">
+      {/* Navigation */}
+      <nav className="bg-white shadow-md sticky top-0 z-50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex justify-between items-center h-16">
+            <div className="flex items-center">
+              <span className="text-2xl font-bold text-blue-900">🌍 LOYAL</span>
+              <span className="ml-2 text-sm text-gray-600">Global Studies</span>
+            </div>
+            <div className="hidden md:flex space-x-8">
+              <Link href="#batches" className="text-gray-700 hover:text-blue-900 font-medium">Batches</Link>
+              <Link href="#tests" className="text-gray-700 hover:text-blue-900 font-medium">Mock Tests</Link>
+              <Link href="#results" className="text-gray-700 hover:text-blue-900 font-medium">Results</Link>
+              <Link href="#app" className="text-gray-700 hover:text-blue-900 font-medium">App</Link>
+            </div>
+            <button className="bg-orange-500 hover:bg-orange-600 text-white px-6 py-2 rounded-lg font-semibold transition">
+              Login
+            </button>
+          </div>
+        </div>
+      </nav>
+
+      {/* Hero Section */}
+      <section className="bg-gradient-to-r from-blue-900 to-blue-700 text-white py-20">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <h1 className="text-4xl md:text-6xl font-bold mb-6">
+            🎓 LOYAL Global Studies
+          </h1>
+          <p className="text-xl md:text-2xl mb-4">
+            India's Most Trusted Global Learning Platform
+          </p>
+          <div className="flex flex-wrap justify-center gap-4 mb-8 text-sm md:text-base">
+            <span>✅ 50,000+ Students</span>
+            <span>✅ 500+ Cities</span>
+            <span>✅ 95% Selection Rate</span>
+          </div>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <button className="bg-orange-500 hover:bg-orange-600 text-white px-8 py-4 rounded-lg font-bold text-lg transition">
+              🚀 Enroll Now - 50% Off
+            </button>
+            <button className="bg-transparent border-2 border-white hover:bg-white hover:text-blue-900 text-white px-8 py-4 rounded-lg font-bold text-lg transition">
+              📺 Watch Demo Class
+            </button>
+          </div>
+        </div>
+      </section>
+
+      {/* Trust Badges */}
+      <section className="bg-white py-8 border-b">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex flex-wrap justify-center gap-8 text-center">
+            <div>
+              <p className="text-2xl font-bold text-blue-900">🏆 4.8/5</p>
+              <p className="text-gray-600">Rated by 10,000+ Students</p>
+            </div>
+            <div>
+              <p className="text-2xl font-bold text-blue-900">📺 Featured</p>
+              <p className="text-gray-600">Aaj Tak, Zee News</p>
+            </div>
+            <div>
+              <p className="text-2xl font-bold text-blue-900">🤝 Partners</p>
+              <p className="text-gray-600">Cambridge, British Council</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Popular Batches */}
+      <section id="batches" className="py-16">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <h2 className="text-3xl font-bold text-center text-blue-900 mb-12">
+            📚 Top Batches for Global Success
+          </h2>
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+            <div className="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition">
+              <div className="bg-blue-900 text-white p-4">
+                <h3 className="font-bold text-lg">IB Diploma Complete</h3>
+              </div>
+              <div className="p-6">
+                <p className="text-gray-600 mb-2">👨‍🏫 Dr. Priya Sharma (Ex-IB)</p>
+                <p className="text-gray-600 mb-2">⏱️ 12 Months</p>
+                <p className="text-2xl font-bold text-blue-900 mb-4">₹24,999</p>
+                <button className="w-full bg-orange-500 hover:bg-orange-600 text-white py-3 rounded-lg font-semibold transition">
+                  Enroll Now
+                </button>
+                <p className="text-xs text-gray-500 mt-3 text-center">⏰ Next Batch: 15 Oct | 👥 234 Enrolled</p>
+              </div>
+            </div>
+
+            <div className="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition">
+              <div className="bg-blue-900 text-white p-4">
+                <h3 className="font-bold text-lg">IELTS Band 8+ Guarantee</h3>
+              </div>
+              <div className="p-6">
+                <p className="text-gray-600 mb-2">👨‍🏫 Mark Williams (Native)</p>
+                <p className="text-gray-600 mb-2">⏱️ 3 Months</p>
+                <p className="text-2xl font-bold text-blue-900 mb-4">₹7,999</p>
+                <button className="w-full bg-orange-500 hover:bg-orange-600 text-white py-3 rounded-lg font-semibold transition">
+                  Join Batch
+                </button>
+                <p className="text-xs text-gray-500 mt-3 text-center">⏰ Next Batch: 12 Oct | 👥 567 Enrolled</p>
+              </div>
+            </div>
+
+            <div className="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition">
+              <div className="bg-blue-900 text-white p-4">
+                <h3 className="font-bold text-lg">Study Abroad Masterclass</h3>
+              </div>
+              <div className="p-6">
+                <p className="text-gray-600 mb-2">👨‍🏫 Rajesh Kumar (10+ Yrs)</p>
+                <p className="text-gray-600 mb-2">⏱️ 1 Month</p>
+                <p className="text-2xl font-bold text-blue-900 mb-4">₹2,499</p>
+                <button className="w-full bg-orange-500 hover:bg-orange-600 text-white py-3 rounded-lg font-semibold transition">
+                  Register Free
+                </button>
+                <p className="text-xs text-gray-500 mt-3 text-center">⏰ Next Batch: 20 Oct | 👥 1,234 Enrolled</p>
+              </div>
+            </div>
+
+            <div className="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition">
+              <div className="bg-blue-900 text-white p-4">
+                <h3 className="font-bold text-lg">Global Languages</h3>
+              </div>
+              <div className="p-6">
+                <p className="text-gray-600 mb-2">👨‍🏫 Native Trainers</p>
+                <p className="text-gray-600 mb-2">⏱️ 6 Months</p>
+                <p className="text-2xl font-bold text-blue-900 mb-4">₹12,999</p>
+                <button className="w-full bg-orange-500 hover:bg-orange-600 text-white py-3 rounded-lg font-semibold transition">
+                  Start Learning
+                </button>
+                <p className="text-xs text-gray-500 mt-3 text-center">⏰ Next Batch: 18 Oct | 👥 890 Enrolled</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Mock Tests */}
+      <section id="tests" className="py-16 bg-gray-100">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <h2 className="text-3xl font-bold text-center text-blue-900 mb-12">
+            📝 Free & Premium Mock Tests
+          </h2>
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+            <div className="bg-white rounded-xl shadow-lg p-6 hover:shadow-xl transition">
+              <h3 className="font-bold text-xl text-blue-900 mb-3">IELTS Full-Length Mocks</h3>
+              <p className="text-gray-600 mb-2">📋 10 Tests | ⏰ 6 Months</p>
+              <p className="text-2xl font-bold text-orange-500 mb-4">₹999</p>
+              <button className="w-full bg-blue-900 hover:bg-blue-800 text-white py-3 rounded-lg font-semibold transition">
+                Buy Now
+              </button>
+            </div>
+
+            <div className="bg-white rounded-xl shadow-lg p-6 hover:shadow-xl transition">
+              <h3 className="font-bold text-xl text-blue-900 mb-3">SAT Practice Suite</h3>
+              <p className="text-gray-600 mb-2">📋 15 Tests | ⏰ 12 Months</p>
+              <p className="text-2xl font-bold text-orange-500 mb-4">₹1,499</p>
+              <button className="w-full bg-blue-900 hover:bg-blue-800 text-white py-3 rounded-lg font-semibold transition">
+                Start Practice
+              </button>
+            </div>
+
+            <div className="bg-white rounded-xl shadow-lg p-6 hover:shadow-xl transition">
+              <h3 className="font-bold text-xl text-blue-900 mb-3">DUOLINGO English Test</h3>
+              <p className="text-gray-600 mb-2">📋 8 Tests | ⏰ 3 Months</p>
+              <p className="text-2xl font-bold text-orange-500 mb-4">₹699</p>
+              <button className="w-full bg-blue-900 hover:bg-blue-800 text-white py-3 rounded-lg font-semibold transition">
+                Attempt Free
+              </button>
+            </div>
+
+            <div className="bg-white rounded-xl shadow-lg p-6 hover:shadow-xl transition">
+              <h3 className="font-bold text-xl text-blue-900 mb-3">Global Scholarship Test</h3>
+              <p className="text-gray-600 mb-2">📋 5 Tests | ⏰ Lifetime</p>
+              <p className="text-2xl font-bold text-green-600 mb-4">FREE</p>
+              <button className="w-full bg-green-600 hover:bg-green-700 text-white py-3 rounded-lg font-semibold transition">
+                Take Test
+              </button>
+            </div>
+          </div>
+          <p className="text-center text-gray-600 mt-8">🔥 1,234 Tests Taken Today</p>
+        </div>
+      </section>
+
+      {/* Results */}
+      <section id="results" className="py-16">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <h2 className="text-3xl font-bold text-center text-blue-900 mb-12">
+            🏆 Hamare Students Ki Udaan
+          </h2>
+          <div className="grid md:grid-cols-3 gap-8">
+            <div className="bg-white rounded-xl shadow-lg p-6 text-center">
+              <p className="text-4xl mb-4">🎓</p>
+              <h3 className="font-bold text-xl text-blue-900 mb-2">Riya Gupta</h3>
+              <p className="text-gray-600 mb-2">IELTS 8.5</p>
+              <p className="text-green-600 font-semibold">MIT Scholarship</p>
+            </div>
+            <div className="bg-white rounded-xl shadow-lg p-6 text-center">
+              <p className="text-4xl mb-4">🌍</p>
+              <h3 className="font-bold text-xl text-blue-900 mb-2">Arjun Mehta</h3>
+              <p className="text-gray-600 mb-2">SAT 1550</p>
+              <p className="text-green-600 font-semibold">Stanford Admit</p>
+            </div>
+            <div className="bg-white rounded-xl shadow-lg p-6 text-center">
+              <p className="text-4xl mb-4">💼</p>
+              <h3 className="font-bold text-xl text-blue-900 mb-2">Sneha Patel</h3>
+              <p className="text-gray-600 mb-2">DUOLINGO 135</p>
+              <p className="text-green-600 font-semibold">UK Masters</p>
+            </div>
+          </div>
+          <div className="text-center mt-12">
+            <button className="bg-orange-500 hover:bg-orange-600 text-white px-8 py-4 rounded-lg font-bold text-lg transition">
+              Aapka Naam Yahan? Enroll Now
+            </button>
+          </div>
+        </div>
+      </section>
+
+      {/* App Download */}
+      <section id="app" className="py-16 bg-blue-900 text-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <h2 className="text-3xl font-bold mb-6">📲 LOYAL App Download Karein</h2>
+          <p className="text-xl mb-8">Live Classes | Mock Tests | Doubt Solving | Progress Tracker</p>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center mb-8">
+            <button className="bg-black hover:bg-gray-800 text-white px-8 py-4 rounded-lg font-semibold transition flex items-center justify-center gap-2">
+              <span>📱</span> Download on Google Play
+            </button>
+            <button className="bg-black hover:bg-gray-800 text-white px-8 py-4 rounded-lg font-semibold transition flex items-center justify-center gap-2">
+              <span>🍎</span> Get on App Store
+            </button>
+          </div>
+          <div className="bg-white bg-opacity-10 rounded-xl p-6 max-w-2xl mx-auto">
+            <p className="text-lg mb-4">💬 Join WhatsApp Community: 25,000+ Students</p>
+            <button className="bg-green-600 hover:bg-green-700 text-white px-8 py-3 rounded-lg font-semibold transition">
+              Join Now
+            </button>
+          </div>
+        </div>
+      </section>
+
+      {/* Flash Sale */}
+      <section className="py-12 bg-gradient-to-r from-orange-500 to-red-500 text-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <h2 className="text-3xl font-bold mb-4">⚡ FLASH SALE: 50% OFF + FREE Mock Test Series</h2>
+          <p className="text-xl mb-6">⏰ Offer Ends: 12 Oct, 11:59 PM</p>
+          <button className="bg-white text-orange-600 px-8 py-4 rounded-lg font-bold text-lg hover:bg-gray-100 transition">
+            Claim Offer Now
+          </button>
+        </div>
+      </section>
+
+      {/* Footer */}
+      <footer className="bg-gray-900 text-gray-300 py-12">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid md:grid-cols-4 gap-8">
+            <div>
+              <h3 className="text-white font-bold text-lg mb-4">LOYAL Global Studies</h3>
+              <p className="text-sm">India's Most Trusted Global Learning Platform</p>
+            </div>
+            <div>
+              <h4 className="text-white font-semibold mb-4">Quick Links</h4>
+              <ul className="space-y-2 text-sm">
+                <li><Link href="#batches" className="hover:text-white">Batches</Link></li>
+                <li><Link href="#tests" className="hover:text-white">Mock Tests</Link></li>
+                <li><Link href="#results" className="hover:text-white">Results</Link></li>
+                <li><Link href="#app" className="hover:text-white">App</Link></li>
+              </ul>
+            </div>
+            <div>
+              <h4 className="text-white font-semibold mb-4">Contact</h4>
+              <ul className="space-y-2 text-sm">
+                <li>📧 support@loyalglobalstudies.com</li>
+                <li>📱 +91-XXXXXXXXXX</li>
+                <li>🏢 Your City, India</li>
+              </ul>
+            </div>
+            <div>
+              <h4 className="text-white font-semibold mb-4">Follow Us</h4>
+              <div className="flex gap-4">
+                <span className="text-2xl hover:text-white cursor-pointer">📷</span>
+                <span className="text-2xl hover:text-white cursor-pointer">📹</span>
+                <span className="text-2xl hover:text-white cursor-pointer">💼</span>
+                <span className="text-2xl hover:text-white cursor-pointer">📱</span>
+              </div>
+            </div>
+          </div>
+          <div className="border-t border-gray-800 mt-8 pt-8 text-center text-sm">
+            <p>&copy; 2026 LOYAL Global Studies. All rights reserved.</p>
+          </div>
+        </div>
+      </footer>
+
+      {/* Developer Credit - 3D Rainbow Effect */}
+      <section className="py-12 bg-gradient-to-r from-red-500 via-yellow-500 via-green-500 via-blue-500 to-purple-500 animate-gradient">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <div className="bg-white bg-opacity-20 backdrop-blur-lg rounded-2xl p-8 transform hover:scale-105 transition duration-500 shadow-2xl border-2 border-white">
+            <p className="text-white text-lg mb-2 font-semibold">DEVELOPER BY</p>
+            <h2 className="text-5xl md:text-7xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-red-400 via-yellow-400 via-green-400 via-blue-400 to-purple-400 animate-pulse drop-shadow-lg" 
+                style={{
+                  textShadow: '3px 3px 0px rgba(0,0,0,0.3), 6px 6px 0px rgba(0,0,0,0.2), 9px 9px 0px rgba(0,0,0,0.1)',
+                  transform: 'perspective(500px) rotateX(10deg)',
+                  transformStyle: 'preserve-3d'
+                }}>
+              ❤️ LOYAL JI ❤️
+            </h2>
+            <p className="text-white text-sm mt-4 opacity-80">🌈 All Colors Mixed | 🎨 3D Effect | 💖 Made with Love</p>
+          </div>
+        </div>
+      </section>
+
+      {/* Custom CSS for Animations */}
+      <style jsx global>{`
+        @keyframes gradient {
+          0% { background-position: 0% 50%; }
+          50% { background-position: 100% 50%; }
+          100% { background-position: 0% 50%; }
+        }
+        .animate-gradient {
+          background-size: 300% 300%;
+          animation: gradient 8s ease infinite;
+        }
+      `}</style>
+    </div>
+  );
+}
+
+
+X

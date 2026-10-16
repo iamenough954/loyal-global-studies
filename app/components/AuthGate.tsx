@@ -4,63 +4,68 @@ import { useEffect, useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
 
 export default function AuthGate({
-  children,
+children,
 }: {
-  children: React.ReactNode;
+children: React.ReactNode;
 }) {
-  const pathname = usePathname();
-  const router = useRouter();
-  const [checked, setChecked] = useState(false);
-  const [loggedIn, setLoggedIn] = useState(false);
+const pathname = usePathname();
+const router = useRouter();
+const [checked, setChecked] = useState(false);
+const [loggedIn, setLoggedIn] = useState(false);
 
-  useEffect(() => {
-    if (pathname === "/login") {
-      setLoggedIn(true);
-      setChecked(true);
-      return;
-    }
+const isAdminRoute = pathname.startsWith("/admin");
+const isLoginPage = pathname === "/login";
+const canBypassProfileGate = isLoginPage || isAdminRoute;
 
-    let validProfile = false;
+useEffect(() => {
+if (canBypassProfileGate) {
+setLoggedIn(true);
+setChecked(true);
+return;
+}
 
-    try {
-      const saved = localStorage.getItem("loyal-profile");
-      if (saved) {
-        const profile = JSON.parse(saved);
-        validProfile =
-          typeof profile.name === "string" &&
-          profile.name.trim().length > 0 &&
-          Number.isFinite(Number(profile.age));
-      }
-    } catch {
-      validProfile = false;
-    }
+let validProfile = false;
 
-    setLoggedIn(validProfile);
-    setChecked(true);
+try {
+  const saved = localStorage.getItem("loyal-profile");
 
-    if (!validProfile) {
-      router.replace("/login");
-    }
-  }, [pathname, router]);
+  if (saved) {
+    const profile = JSON.parse(saved);
 
-  if (pathname === "/login") {
-    return <>{children}</>;
+    validProfile =
+      typeof profile.name === "string" &&
+      profile.name.trim().length > 0 &&
+      Number.isFinite(Number(profile.age));
   }
+} catch {
+  validProfile = false;
+}
 
-  if (!checked || !loggedIn) {
-    return (
-      <main className="flex min-h-screen items-center justify-center bg-[#030b19] px-5 text-center text-white">
-        <div>
-          <p className="text-2xl font-black text-cyan-300">
-            LOYAL GLOBAL STUDIES
-          </p>
-          <p className="mt-3 text-slate-400">
-            Login check ho raha hai...
-          </p>
-        </div>
-      </main>
-    );
-  }
+setLoggedIn(validProfile);
+setChecked(true);
 
-  return <>{children}</>;
+if (!validProfile) {
+  router.replace("/login");
+}
+
+}, [pathname, router, canBypassProfileGate]);
+
+if (canBypassProfileGate) {
+return <>{children}</>;
+}
+
+if (!checked || !loggedIn) {
+return (
+<main className="min-h-screen flex items-center justify-center bg-slate-950 text-white">
+<div className="text-center">
+<div className="mx-auto mb-4 h-10 w-10 animate-spin rounded-full border-4 border-slate-700 border-t-cyan-400" />
+<p className="text-sm text-slate-300">
+LOYAL Global Studies लोड हो रहा है...
+</p>
+</div>
+</main>
+);
+}
+
+return <>{children}</>;
 }

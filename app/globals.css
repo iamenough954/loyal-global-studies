@@ -1,8 +1,13 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  color-scheme: dark;
+  --background: #070b16;
+  --foreground: #f8fafc;
+  --loyal-cyan: #22d3ee;
+  --loyal-blue: #3b82f6;
+  --loyal-violet: #a78bfa;
+  --loyal-border: rgba(148, 163, 184, 0.16);
 }
 
 @theme inline {
@@ -12,130 +17,39 @@
   --font-mono: var(--font-geist-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
-}
-
-/* LOYAL JI - Automatic Rainbow Animation */
-.loyal-rainbow {
-  display: inline-block;
-  font-weight: 900;
-  letter-spacing: 1px;
-  background: linear-gradient(
-    90deg,
-    #ff1744,
-    #ff9100,
-    #ffea00,
-    #00e676,
-    #00b0ff,
-    #651fff,
-    #f500ff,
-    #ff1744
-  );
-  background-size: 300% auto;
-  background-clip: text;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  animation: loyal-rainbow-flow 5s linear infinite;
-}
-
-@keyframes loyal-rainbow-flow {
-  from { background-position: 0% center; }
-  to { background-position: 300% center; }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .loyal-rainbow {
-    animation: none;
-    background-position: center;
-  }
-}
-
-/* ===== LOYAL PREMIUM RAINBOW FOOTER ===== */
-.loyal-rainbow {
-  display: inline-block;
-  font-weight: 900;
-  letter-spacing: 1.5px;
-  background: linear-gradient(
-    90deg,
-    #ff1744,
-    #ff9100,
-    #ffea00,
-    #00e676,
-    #00b0ff,
-    #651fff,
-    #f500ff,
-    #ff1744
-  );
-  background-size: 300% 100%;
-  background-clip: text;
-  -webkit-background-clip: text;
-  color: transparent;
-  -webkit-text-fill-color: transparent;
-  animation: loyal-rainbow-flow 5s linear infinite;
-  filter: drop-shadow(0 0 7px rgba(0, 200, 255, 0.22));
-}
-
-@keyframes loyal-rainbow-flow {
-  0% { background-position: 0% 50%; }
-  100% { background-position: 300% 50%; }
-}
-
-/* Premium card hover effect */
-.premium-card {
-  transition: transform 250ms ease, border-color 250ms ease,
-              box-shadow 250ms ease;
-}
-
-.premium-card:hover {
-  transform: translateY(-4px);
-  border-color: rgba(34, 211, 238, 0.55);
-  box-shadow: 0 12px 35px rgba(8, 145, 178, 0.12);
-}
-
-::selection {
-  background: rgba(34, 211, 238, 0.3);
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .loyal-rainbow,
-  .premium-card {
-    animation: none;
-    transition: none;
-  }
-}
-
-
-
-/* LOYAL PROFESSIONAL COLOR UPGRADE */
-:root {
-  color-scheme: dark;
-  --loyal-cyan: #22d3ee;
-  --loyal-blue: #3b82f6;
-  --loyal-violet: #a78bfa;
-  --loyal-gold: #fbbf24;
+* {
+  box-sizing: border-box;
 }
 
 html {
   scroll-behavior: smooth;
+  scroll-padding-top: 90px;
 }
 
 body {
-  background-color: #070b16;
+  margin: 0;
+  background-color: var(--background);
   background-image:
-    radial-gradient(ellipse at 8% 0%, rgba(34, 211, 238, .10), transparent 34%),
-    radial-gradient(ellipse at 95% 18%, rgba(139, 92, 246, .10), transparent 32%),
-    radial-gradient(ellipse at 50% 100%, rgba(59, 130, 246, .07), transparent 40%);
+    radial-gradient(
+      ellipse at 8% 0%,
+      rgba(34, 211, 238, 0.10),
+      transparent 34%
+    ),
+    radial-gradient(
+      ellipse at 95% 18%,
+      rgba(139, 92, 246, 0.09),
+      transparent 32%
+    ),
+    radial-gradient(
+      ellipse at 50% 100%,
+      rgba(59, 130, 246, 0.06),
+      transparent 40%
+    );
   background-attachment: fixed;
+  color: var(--foreground);
+  font-family: Arial, Helvetica, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
 }
 
 ::selection {
@@ -143,13 +57,17 @@ body {
   background: #67e8f9;
 }
 
-a, button, input, select, textarea {
+a,
+button,
+input,
+select,
+textarea {
   transition:
-    color .2s ease,
-    background-color .2s ease,
-    border-color .2s ease,
-    box-shadow .2s ease,
-    transform .2s ease;
+    color 0.2s ease,
+    background-color 0.2s ease,
+    border-color 0.2s ease,
+    box-shadow 0.2s ease,
+    transform 0.2s ease;
 }
 
 a:focus-visible,
@@ -162,19 +80,37 @@ textarea:focus-visible {
 }
 
 button:not(:disabled):active {
-  transform: scale(.98);
+  transform: scale(0.98);
 }
 
-input, select, textarea {
+input,
+select,
+textarea {
   accent-color: var(--loyal-cyan);
 }
 
-[class*="rounded-2xl"][class*="border"]:hover,
-[class*="rounded-3xl"][class*="border"]:hover {
-  box-shadow: 0 12px 36px rgba(34, 211, 238, .08);
+::placeholder {
+  color: #64748b;
+  opacity: 1;
+}
+
+.premium-card {
+  transition:
+    transform 250ms ease,
+    border-color 250ms ease,
+    box-shadow 250ms ease;
+}
+
+.premium-card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(34, 211, 238, 0.55);
+  box-shadow: 0 12px 35px rgba(8, 145, 178, 0.12);
 }
 
 .loyal-rainbow {
+  display: inline-block;
+  font-weight: 900;
+  letter-spacing: 1.2px;
   background-image: linear-gradient(
     90deg,
     #22d3ee,
@@ -185,22 +121,50 @@ input, select, textarea {
     #34d399,
     #22d3ee
   );
-  background-size: 250% auto;
-  color: transparent;
-  -webkit-background-clip: text;
+  background-size: 250% 100%;
   background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
   animation: loyal-color-flow 7s linear infinite;
+  filter: drop-shadow(0 0 7px rgba(34, 211, 238, 0.14));
 }
 
 @keyframes loyal-color-flow {
-  to { background-position: 250% center; }
+  from {
+    background-position: 0% 50%;
+  }
+  to {
+    background-position: 250% 50%;
+  }
+}
+
+@media (hover: hover) {
+  a:hover {
+    text-decoration-color: rgba(103, 232, 249, 0.7);
+  }
+}
+
+@media (max-width: 640px) {
+  body {
+    background-attachment: scroll;
+  }
+
+  .loyal-rainbow {
+    letter-spacing: 0.5px;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  html { scroll-behavior: auto; }
-  *, *::before, *::after {
-    animation-duration: .01ms !important;
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
-    transition-duration: .01ms !important;
+    transition-duration: 0.01ms !important;
   }
 }
