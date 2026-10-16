@@ -1,321 +1,428 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import rawData from "../../../data/uppcs_test1_questions_raw.json";
-import solutionData from "../../../data/uppcs_test1_solution_data.json";
-import bilingualData from "../../../data/uppcs_test1_bilingual.json";
-import BilingualLanguageSelector from "@/components/BilingualLanguageSelector";
-import type { TestLanguage } from "@/lib/bilingual-test";
+import { useState, useEffect } from "react";
+import Link from "next/link";
 
-type Question = {
+interface Question {
   id: number;
-  rawText: string;
-  detectedOptions: string[];
-};
-
-type Solution = {
-  id: number;
-  solutionAnswer: string;
-  solution?: string;
-};
-
-type SolutionFile = {
-  questions: Solution[];
-};
-
-const questions = rawData as Question[];
-const solutions = (solutionData as SolutionFile).questions;
-const solutionMap = new Map(solutions.map((s) => [s.id, s]));
-const letters = ["A", "B", "C", "D"];
-
-function getStem(text: string) {
-  return text.split(/\n(?=\(a\)\s)/i)[0] || text;
+  question: string;
+  statements?: string[];
+  subQuestion?: string;
+  options: { key: string; text: string }[];
+  correctAnswer: string;
+  explanation: string;
 }
 
-function getOptionText(text: string) {
-  return text.replace(/^\([a-d]\)\s*/i, "").trim();
-}
+const questionsData: Question[] = [
+  {
+    id: 1,
+    question: "मूल अधिकारों के ऐतिहासिक विकास के संदर्भ में निम्नलिखित कथनों पर विचार कीजिए:",
+    statements: [
+      "(1) ब्रिटिश सम्राट 'जान' द्वारा 1215 ई. में हस्ताक्षरित अधिकार पत्र (Magna Carta) मूल अधिकार संबंधी प्रथम लिखित दस्तावेज है।",
+      "(2) फ्रांस में 1789 ई. में मानव एवं नागरिकों के अधिकार घोषणा-पत्र द्वारा जनता को मूलभूत अधिकार प्रदान किए गए थे।",
+      "(3) अमेरिका के मूल संविधान में मौलिक अधिकारों का विस्तृत उल्लेख शुरुआत से ही शामिल था।"
+    ],
+    subQuestion: "उपरोक्त कथनों में से कौन-सा/से सही है/हैं?",
+    options: [
+      { key: "a", text: "केवल 1 और 2" },
+      { key: "b", text: "केवल 2 और 3" },
+      { key: "c", text: "केवल 3" },
+      { key: "d", text: "1, 2 और 3" }
+    ],
+    correctAnswer: "a",
+    explanation: "कथन 3 गलत है क्योंकि अमेरिका के मूल संविधान में मौलिक अधिकारों का उल्लेख नहीं था; इसे 1791 में अमेरिकी संविधान में संशोधनों द्वारा 'बिल ऑफ राइट्स' के रूप में जोड़ा गया था।"
+  },
+  {
+    id: 2,
+    question: "भारतीय संविधान में मूल अधिकारों की माँग के इतिहास के संबंध में निम्नलिखित कथनों पर विचार कीजिए:",
+    statements: [
+      "(1) भारत में मूल अधिकारों की माँग सर्वप्रथम संविधान विधेयक 1895 के माध्यम से की गई थी।",
+      "(2) मोती लाल नेहरू ने 1928 ई. में 'नेहरू रिपोर्ट' के माध्यम से मूल अधिकारों की माँग रखी थी।",
+      "(3) वर्ष 1935 के भारत शासन अधिनियम में भारतीयों के लिए मूल अधिकारों को शामिल कर लिया गया था।"
+    ],
+    subQuestion: "उपरोक्त कथनों में से कौन-सा/से सही है/हैं?",
+    options: [
+      { key: "a", text: "केवल 1 और 3" },
+      { key: "b", text: "केवल 1 और 2" },
+      { key: "c", text: "केवल 2 और 3" },
+      { key: "d", text: "1, 2 और 3" }
+    ],
+    correctAnswer: "b",
+    explanation: "भारत में सर्वप्रथम मूल अधिकारों की माँग 1895 के संविधान विधेयक द्वारा की गई और 1928 में नेहरू रिपोर्ट में भी इसे दोहराया गया। कथन 3 गलत है क्योंकि 1934 में संयुक्त संसदीय समिति ने इस माँग को अस्वीकार कर दिया था, जिसके कारण 1935 के भारत शासन अधिनियम में इसे शामिल नहीं किया गया था।"
+  },
+  {
+    id: 3,
+    question: "भारतीय संविधान के अनुच्छेद 12 के तहत 'राज्य' की परिभाषा के संदर्भ में निम्नलिखित में से कौन-से निकाय 'राज्य' के अंतर्गत शामिल हैं?",
+    statements: [
+      "(1) भारत की सरकार एवं संसद",
+      "(2) राष्ट्रीय शैक्षिक एवं अनुसंधान परिषद (NCERT)",
+      "(3) भारतीय सांख्यिकी संगठन (ISO)",
+      "(4) भारतीय क्रिकेट नियंत्रण बोर्ड (BCCI)"
+    ],
+    subQuestion: "नीचे दिए गए कूट का प्रयोग कर सही उत्तर चुनिए:",
+    options: [
+      { key: "a", text: "केवल 1 और 2" },
+      { key: "b", text: "केवल 2, 3 और 4" },
+      { key: "c", text: "केवल 1 और 3" },
+      { key: "d", text: "1, 2, 3 और 4" }
+    ],
+    correctAnswer: "c",
+    explanation: "अनुच्छेद 12 के तहत 'राज्य' शब्द में भारत सरकार, संसद, राज्य सरकारें, विधानमंडल, स्थानीय प्राधिकारी तथा अन्य प्राधिकारी शामिल हैं। न्यायिक निर्णयों के अनुसार भारतीय सांख्यिकी संगठन (ISO) राज्य है, जबकि NCERT और BCCI को राज्य नहीं माना गया है।"
+  },
+  {
+    id: 4,
+    question: "'आच्छादन के सिद्धांत' के संदर्भ में निम्नलिखित कथनों पर विचार कीजिए:",
+    statements: [
+      "(1) यह सिद्धांत मुख्य रूप से संविधान-पूर्व की उन विधियों पर लागू होता है जो मूल अधिकारों से असंगत हैं।",
+      "(2) इस सिद्धांत के तहत मूल अधिकारों से असंगत विधियाँ प्रारंभ से ही पूर्णतः मृत या शून्य नहीं होतीं, बल्कि मूल अधिकारों द्वारा ढक ली जाती हैं।",
+      "(3) सर्वोच्च न्यायालय ने भीखाजी बनाम मध्य प्रदेश राज्य (1955) के वाद में इस सिद्धांत को प्रतिपादित किया था।"
+    ],
+    subQuestion: "उपरोक्त कथनों में से कौन-से सही हैं?",
+    options: [
+      { key: "a", text: "केवल 1 और 2" },
+      { key: "b", text: "केवल 2 और 3" },
+      { key: "c", text: "केवल 1 और 3" },
+      { key: "d", text: "1, 2 और 3" }
+    ],
+    correctAnswer: "d",
+    explanation: "आच्छादन का सिद्धांत अनुच्छेद 13(1) से संबंधित है, जिसके तहत संविधान-पूर्व विधियाँ मूल अधिकारों से असंगत होने पर सुषुप्तावस्था में चली जाती हैं और आच्छादन हटते ही पुनर्जीवित हो जाती हैं। भीखाजी बनाम मध्य प्रदेश राज्य (1955) के मामले में सर्वोच्च न्यायालय द्वारा इस सिद्धांत को प्रतिपादित किया गया था।"
+  },
+  {
+    id: 5,
+    question: "'पृथक्करणीयता के सिद्धांत' के संबंध में निम्नलिखित कथनों पर विचार कीजिए:",
+    statements: [
+      "(1) यह सिद्धांत अनुच्छेद 13(2) में प्रयुक्त शब्दावली 'उल्लङ्घन की सीमा तक' से संबंधित है।",
+      "(2) यदि किसी अधिनियम का एक भाग अवैध है, तो न्यायालय पूरे अधिनियम को शून्य घोषित करने के बजाय केवल अवैध भाग को ही पृथक कर शून्य घोषित करता है।",
+      "(3) यदि वैध और अवैध भाग इस प्रकार जुड़े हों कि उन्हें अलग करने पर अधिनियम का मुख्य उद्देश्य ही विफल हो जाए, तो पूरा अधिनियम अवैध घोषित कर दिया जाता है।"
+    ],
+    subQuestion: "उपरोक्त कथनों में से कौन-सा/से कथन सही है/हैं?",
+    options: [
+      { key: "a", text: "केवल 1" },
+      { key: "b", text: "केवल 1 और 2" },
+      { key: "c", text: "केवल 2 और 3" },
+      { key: "d", text: "1, 2 और 3" }
+    ],
+    correctAnswer: "d",
+    explanation: "पृथक्करणीयता का सिद्धांत संविधानेतर विधियों पर लागू होता है। इसका उद्देश्य पूरे कानून को निरस्त करने के बजाय केवल उस हिस्से को शून्य करना है जो मौलिक अधिकारों का उल्लंघन करता है, बशर्ते कि वह हिस्सा शेष कानून से अलग किए जाने योग्य हो।"
+  },
+  {
+    id: 6,
+    question: "मूल अधिकारों में संशोधन की संसद की शक्ति से संबंधित निम्नलिखित ऐतिहासिक वादों को उनके सही कालानुक्रमिक क्रम में व्यवस्थित कीजिए:",
+    statements: [
+      "(1) गोलकनाथ बनाम पंजाब राज्य",
+      "(2) शंकरी प्रसाद बनाम भारत संघ",
+      "(3) केशवानंद भारती बनाम केरल राज्य",
+      "(4) सज्जन सिंह बनाम राजस्थान राज्य"
+    ],
+    subQuestion: "नीचे दिए गए कूट का प्रयोग कर सही उत्तर चुनिए:",
+    options: [
+      { key: "a", text: "2-4-1-3" },
+      { key: "b", text: "1-2-3-4" },
+      { key: "c", text: "2-1-4-3" },
+      { key: "d", text: "4-2-1-3" }
+    ],
+    correctAnswer: "a",
+    explanation: "इन प्रसिद्ध वादों का सही कालानुक्रमिक वर्ष इस प्रकार है:\n1. शंकरी प्रसाद बनाम भारत संघ (1951)\n2. सज्जन सिंह बनाम राजस्थान राज्य (1965)\n3. गोलकनाथ बनाम पंजाब राज्य (1967)\n4. केशवानंद भारती बनाम केरल राज्य (1973)\nअतः सही कूट 2-4-1-3 है।"
+  }
+];
 
-export default function UppcsTestOnePage() {
-  const [language, setLanguage] = useState<TestLanguage>("en");
-  const [started, setStarted] = useState(false);
-  const [current, setCurrent] = useState(0);
-  const [answers, setAnswers] = useState<Record<number, string>>({});
-  const [marked, setMarked] = useState<Record<number, boolean>>({});
-  const [seconds, setSeconds] = useState(120 * 60);
-  const [submitted, setSubmitted] = useState(false);
+export default function UppscPrelimsTest1Page() {
+  const [currentIdx, setCurrentIdx] = useState(0);
+  const [userAnswers, setUserAnswers] = useState<{ [key: number]: string }>({});
+  const [markedForReview, setMarkedForReview] = useState<{ [key: number]: boolean }>({});
+  const [timeLeft, setTimeLeft] = useState(7200); // 2 Hours in seconds
+  const [isSubmitted, setIsSubmitted] = useState(false);
 
   useEffect(() => {
-    if (!started || submitted) return;
-
-    const timer = setInterval(() => {
-      setSeconds((previous) => {
-        if (previous <= 1) {
-          clearInterval(timer);
-          setSubmitted(true);
-          return 0;
-        }
-        return previous - 1;
-      });
-    }, 1000);
-
+    if (isSubmitted || timeLeft <= 0) return;
+    const timer = setInterval(() => setTimeLeft((prev) => prev - 1), 1000);
     return () => clearInterval(timer);
-  }, [started, submitted]);
+  }, [isSubmitted, timeLeft]);
 
-  const question = questions[current];
-  const correct = questions.filter(
-    (q) => answers[q.id] === solutionMap.get(q.id)?.solutionAnswer
-  ).length;
-  const attempted = Object.keys(answers).length;
-  const wrong = attempted - correct;
-  const skipped = questions.length - attempted;
-  const score = correct - wrong / 3;
+  const handleSelectOption = (qId: number, key: string) => {
+    if (isSubmitted) return;
+    setUserAnswers((prev) => ({ ...prev, [qId]: key }));
+  };
 
-  const time = `${String(Math.floor(seconds / 3600)).padStart(2, "0")}:${String(
-    Math.floor((seconds % 3600) / 60)
-  ).padStart(2, "0")}:${String(seconds % 60).padStart(2, "0")}`;
+  const toggleMarkReview = (qId: number) => {
+    setMarkedForReview((prev) => ({ ...prev, [qId]: !prev[qId] }));
+  };
 
+  const calculateScore = () => {
+    let correct = 0;
+    let incorrect = 0;
+    questionsData.forEach((q) => {
+      const userAns = userAnswers[q.id];
+      if (userAns) {
+        if (userAns === q.correctAnswer) correct++;
+        else incorrect++;
+      }
+    });
+    const marks = correct * 1.33 - incorrect * 0.44; // Standard UPPCS marking rule
+    return { correct, incorrect, unattempted: questionsData.length - (correct + incorrect), score: marks.toFixed(2) };
+  };
 
-  const hindiReady = false; // Hindi translations are pending and must be verified.
+  const formatTime = (secs: number) => {
+    const h = Math.floor(secs / 3600);
+    const m = Math.floor((secs % 3600) / 60);
+    const s = secs % 60;
+    return `${h.toString().padStart(2, "0")}:${m.toString().padStart(2, "0")}:${s.toString().padStart(2, "0")}`;
+  };
 
-  if (!started) {
-    return (
-      <main className="min-h-screen bg-[#070b14] p-5 text-white">
-        <div className="mx-auto max-w-2xl rounded-3xl border border-white/10 bg-white/[0.03] p-6 sm:p-8">
-          <a href="/mock-tests" className="text-sm font-bold text-cyan-300">
-            ← Mock Tests
-          </a>
-          <h1 className="mt-6 text-2xl font-black sm:text-3xl">
-            UPPCS Prelims — Test 1
-          </h1>
-          <p className="mt-3 text-slate-300">
-            150 प्रश्न · 120 मिनट · सही उत्तर +1 · गलत उत्तर −⅓
-          </p>
-
-          <div className="mt-8">
-            <BilingualLanguageSelector
-              value={language}
-              onChange={setLanguage}
-            />
-          </div>
-
-          {language === "hi" && !hindiReady && (
-            <p className="mt-5 rounded-xl border border-amber-300/30 bg-amber-300/10 p-4 text-sm leading-6 text-amber-100">
-              हिंदी अनुवाद अभी तैयार और सत्यापित नहीं हैं। इस टेस्ट को
-              हिंदी माध्यम में शुरू करने से पहले सभी प्रश्नों और विकल्पों
-              का अनुवाद तथा सत्यापन पूरा करना होगा। अभी English चुनकर
-              अभ्यास कर सकते हैं।
-            </p>
-          )}
-
-          {language === "hi" && hindiReady && (
-            <p className="mt-5 text-sm text-emerald-300">
-              हिंदी अनुवाद सत्यापित हैं।
-            </p>
-          )}
-
-          <button
-            type="button"
-            disabled={language === "hi" && !hindiReady}
-            onClick={() => setStarted(true)}
-            className="mt-6 w-full rounded-xl bg-cyan-400 px-5 py-4 font-black text-slate-950 disabled:cursor-not-allowed disabled:opacity-40"
-          >
-            Start Test / परीक्षा शुरू करें
-          </button>
-        </div>
-      </main>
-    );
-  }
-
-  if (!question) {
-    return <main className="min-h-screen bg-slate-950 p-8 text-white">प्रश्न उपलब्ध नहीं हैं।</main>;
-  }
+  const q = questionsData[currentIdx];
+  const results = calculateScore();
 
   return (
-    <main className="min-h-screen bg-[#070b14] text-white">
-      <header className="sticky top-0 z-10 border-b border-white/10 bg-[#070b14] p-4">
-        <div className="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-3">
-          <a href="/mock-tests" className="font-bold text-cyan-300">
-            ← Mock Tests
-          </a>
-          <span className="font-bold">UPPCS Prelims — Test 1</span>
-          <span className={`rounded-lg px-3 py-2 font-mono font-bold ${seconds < 300 ? "bg-red-500/20 text-red-300" : "bg-cyan-400/10 text-cyan-200"}`}>
-            ⏱ {time}
-          </span>
+    <main className="min-h-screen bg-[#070b16] text-white selection:bg-cyan-500/30 pb-12">
+      {/* Top Header */}
+      <header className="sticky top-0 z-40 border-b border-white/10 bg-[#070b16]/90 backdrop-blur-xl px-4 py-3 sm:px-8">
+        <div className="mx-auto flex max-w-7xl items-center justify-between gap-4">
+          <Link href="/mock-tests" className="text-xs font-bold text-cyan-300 hover:text-white sm:text-sm">
+            ← Back to Tests
+          </Link>
+          <div className="text-center">
+            <h1 className="text-sm font-black tracking-wider sm:text-lg">UPPCS Prelims — Test 1</h1>
+            <p className="text-[10px] text-slate-400 sm:text-xs">LOYAL Global Studies Exam Engine</p>
+          </div>
+          {!isSubmitted ? (
+            <div className="rounded-xl border border-cyan-400/40 bg-cyan-400/10 px-3 py-1.5 text-xs font-black text-cyan-200 sm:text-sm">
+              ⏱ {formatTime(timeLeft)}
+            </div>
+          ) : (
+            <span className="rounded-xl border border-emerald-400/40 bg-emerald-400/10 px-3 py-1.5 text-xs font-black text-emerald-300">
+              Completed
+            </span>
+          )}
         </div>
       </header>
 
-      <div className="mx-auto grid max-w-6xl gap-6 p-4 py-6 md:grid-cols-[1fr_280px]">
-        <section className="rounded-2xl border border-white/10 bg-white/[0.03] p-5 sm:p-7">
-          {!submitted ? (
-            <>
-              <div className="flex flex-wrap items-center justify-between gap-3">
-                <p className="text-sm text-slate-400">
-                  प्रश्न {current + 1} / {questions.length}
-                </p>
+      <div className="mx-auto max-w-7xl px-4 pt-6 sm:px-8">
+        {!isSubmitted ? (
+          <div className="grid gap-6 lg:grid-cols-[1fr_320px]">
+            {/* Question Panel */}
+            <div className="rounded-3xl border border-white/10 bg-gradient-to-br from-[#0e172a] to-[#080d19] p-6 sm:p-8 shadow-2xl">
+              <div className="flex flex-wrap items-center justify-between gap-3 border-b border-white/10 pb-4">
+                <span className="rounded-lg bg-cyan-400/20 px-3 py-1 text-xs font-black text-cyan-300">
+                  Question {currentIdx + 1} of {questionsData.length}
+                </span>
                 <button
-                  onClick={() =>
-                    setMarked((old) => ({ ...old, [question.id]: !old[question.id] }))
-                  }
-                  className={`rounded-lg border px-3 py-2 text-sm ${marked[question.id] ? "border-amber-300 text-amber-200" : "border-white/20 text-slate-300"}`}
+                  onClick={() => toggleMarkReview(q.id)}
+                  className={`rounded-lg border px-3 py-1 text-xs font-bold transition ${
+                    markedForReview[q.id]
+                      ? "border-amber-400 bg-amber-400/20 text-amber-300"
+                      : "border-white/20 bg-white/[0.03] text-slate-300 hover:border-amber-400"
+                  }`}
                 >
-                  {marked[question.id] ? "★ Review हटाएँ" : "☆ Mark for Review"}
+                  {markedForReview[q.id] ? "★ Marked for Review" : "☆ Mark for Review"}
                 </button>
               </div>
 
-              <h1 className="mt-6 whitespace-pre-line text-lg font-semibold leading-8 sm:text-xl">
-                {getStem(question.rawText)}
-              </h1>
+              <div className="mt-6 space-y-4 text-base sm:text-lg leading-relaxed">
+                <p className="font-semibold text-slate-100">{q.question}</p>
+                {q.statements && (
+                  <div className="space-y-2 rounded-2xl border border-white/10 bg-black/20 p-4 text-sm sm:text-base text-slate-200">
+                    {q.statements.map((stmt, i) => (
+                      <p key={i}>{stmt}</p>
+                    ))}
+                  </div>
+                )}
+                {q.subQuestion && <p className="font-bold text-cyan-200 text-sm sm:text-base">{q.subQuestion}</p>}
+              </div>
 
-              <div className="mt-6 grid gap-3">
-                {question.detectedOptions.map((option, index) => {
-                  const letter = letters[index];
-                  const selected = answers[question.id] === letter;
-
+              {/* Options */}
+              <div className="mt-8 space-y-3">
+                {q.options.map((opt) => {
+                  const isSelected = userAnswers[q.id] === opt.key;
                   return (
                     <button
-                      key={`${question.id}-${index}`}
-                      onClick={() =>
-                        setAnswers((old) => ({ ...old, [question.id]: letter }))
-                      }
-                      className={`rounded-xl border p-4 text-left leading-7 transition ${
-                        selected
-                          ? "border-cyan-300 bg-cyan-400/10 text-cyan-100"
-                          : "border-white/10 bg-black/20 hover:border-white/30"
+                      key={opt.key}
+                      onClick={() => handleSelectOption(q.id, opt.key)}
+                      className={`flex w-full items-center gap-4 rounded-2xl border p-4 text-left transition ${
+                        isSelected
+                          ? "border-cyan-400 bg-cyan-400/20 text-white font-bold shadow-lg shadow-cyan-950/40"
+                          : "border-white/10 bg-white/[0.02] text-slate-300 hover:border-cyan-400/40 hover:bg-white/[0.05]"
                       }`}
                     >
-                      <span className="mr-3 font-bold">{letter}.</span>
-                      {getOptionText(option)}
+                      <span
+                        className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-xl font-black text-xs ${
+                          isSelected ? "bg-cyan-400 text-slate-950" : "bg-white/10 text-slate-300"
+                        }`}
+                      >
+                        {opt.key.toUpperCase()}
+                      </span>
+                      <span className="text-sm sm:text-base">{opt.text}</span>
                     </button>
                   );
                 })}
               </div>
 
-              <div className="mt-8 flex flex-wrap justify-between gap-3">
+              {/* Controls */}
+              <div className="mt-8 flex items-center justify-between border-t border-white/10 pt-6">
                 <button
-                  disabled={current === 0}
-                  onClick={() => setCurrent((n) => n - 1)}
-                  className="rounded-xl border border-white/20 px-5 py-3 disabled:opacity-40"
+                  disabled={currentIdx === 0}
+                  onClick={() => setCurrentIdx((prev) => prev - 1)}
+                  className="rounded-xl border border-white/15 px-4 py-2.5 text-xs font-bold text-slate-300 disabled:opacity-30 hover:border-cyan-300"
                 >
-                  ← पिछला प्रश्न
+                  ← Previous
                 </button>
-                {current < questions.length - 1 && (
+                {currentIdx < questionsData.length - 1 ? (
                   <button
-                    onClick={() => setCurrent((n) => n + 1)}
-                    className="rounded-xl bg-cyan-400 px-5 py-3 font-bold text-slate-950"
+                    onClick={() => setCurrentIdx((prev) => prev + 1)}
+                    className="rounded-xl bg-cyan-400 px-6 py-2.5 text-xs font-black text-slate-950 hover:bg-cyan-300"
                   >
-                    अगला प्रश्न →
+                    Next →
+                  </button>
+                ) : (
+                  <button
+                    onClick={() => setIsSubmitted(true)}
+                    className="rounded-xl bg-gradient-to-r from-emerald-400 to-teal-500 px-6 py-2.5 text-xs font-black text-slate-950 hover:from-emerald-300 hover:to-teal-400"
+                  >
+                    Submit Test ✦
                   </button>
                 )}
               </div>
+            </div>
 
-              <p className="mt-5 text-sm text-slate-400">
-                सही उत्तर: +1 अंक · गलत उत्तर: −⅓ अंक · छोड़ा गया प्रश्न: 0 अंक
-              </p>
-            </>
-          ) : (
-            <>
-              <h1 className="text-2xl font-black text-cyan-300">परीक्षा का परिणाम</h1>
-              <p className="mt-2 text-slate-300">UPPCS Prelims — Test 1</p>
+            {/* Sidebar / Question Palette */}
+            <div className="rounded-3xl border border-white/10 bg-[#0d1424] p-6 shadow-xl h-fit">
+              <h3 className="font-black text-sm tracking-wider text-cyan-300 uppercase">Question Palette</h3>
+              <div className="mt-4 grid grid-cols-4 gap-2.5">
+                {questionsData.map((quest, i) => {
+                  const isAns = !!userAnswers[quest.id];
+                  const isMarked = !!markedForReview[quest.id];
+                  const isCurrent = currentIdx === i;
 
-              <div className="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-4">
-                {[
-                  ["कुल अंक", score.toFixed(2)],
-                  ["सही", String(correct)],
-                  ["गलत", String(wrong)],
-                  ["छोड़े", String(skipped)],
-                ].map(([label, value]) => (
-                  <div key={label} className="rounded-xl border border-white/10 bg-black/20 p-4">
-                    <p className="text-sm text-slate-400">{label}</p>
-                    <p className="mt-2 text-2xl font-black">{value}</p>
-                  </div>
-                ))}
-              </div>
-
-              <h2 className="mt-8 text-xl font-bold">उत्तर समीक्षा</h2>
-              <div className="mt-4 space-y-4">
-                {questions.map((q) => {
-                  const solution = solutionMap.get(q.id);
-                  const chosen = answers[q.id];
-                  const answer = solution?.solutionAnswer?.toUpperCase();
+                  let btnStyle = "border-white/10 bg-white/[0.04] text-slate-300";
+                  if (isCurrent) btnStyle = "border-cyan-400 bg-cyan-400 text-slate-950 font-black ring-2 ring-cyan-300/50";
+                  else if (isMarked) btnStyle = "border-amber-400 bg-amber-400/20 text-amber-300 font-bold";
+                  else if (isAns) btnStyle = "border-emerald-400 bg-emerald-400/20 text-emerald-300 font-bold";
 
                   return (
-                    <article key={q.id} className="rounded-xl border border-white/10 p-4">
-                      <p className="font-bold">प्रश्न {q.id}</p>
-                      <p className="mt-2 whitespace-pre-line text-sm leading-6 text-slate-300">
-                        {getStem(q.rawText)}
-                      </p>
-                      <p className="mt-3 text-sm">
-                        आपका उत्तर: <b>{chosen || "नहीं दिया"}</b>
-                        {" · "}
-                        सही उत्तर: <b className="text-emerald-300">{answer || "उपलब्ध नहीं"}</b>
-                      </p>
-                      {solution?.solution && (
-                        <details className="mt-3">
-                          <summary className="cursor-pointer text-cyan-300">व्याख्या देखें</summary>
-                          <p className="mt-2 whitespace-pre-line text-sm leading-6 text-slate-300">
-                            {solution.solution}
-                          </p>
-                        </details>
-                      )}
-                    </article>
+                    <button
+                      key={quest.id}
+                      onClick={() => setCurrentIdx(i)}
+                      className={`flex h-11 items-center justify-center rounded-xl border text-xs transition ${btnStyle}`}
+                    >
+                      {i + 1}
+                    </button>
                   );
                 })}
               </div>
 
+              <div className="mt-6 space-y-2 border-t border-white/10 pt-4 text-xs text-slate-400">
+                <div className="flex items-center gap-2">
+                  <span className="h-3 w-3 rounded-md bg-emerald-400/30 border border-emerald-400" /> Answered
+                </div>
+                <div className="flex items-center gap-2">
+                  <span className="h-3 w-3 rounded-md bg-amber-400/30 border border-amber-400" /> Marked for Review
+                </div>
+                <div className="flex items-center gap-2">
+                  <span className="h-3 w-3 rounded-md bg-white/[0.04] border border-white/10" /> Not Attempted
+                </div>
+              </div>
+
               <button
-                onClick={() => window.location.reload()}
-                className="mt-6 rounded-xl bg-cyan-400 px-5 py-3 font-bold text-slate-950"
+                onClick={() => setIsSubmitted(true)}
+                className="mt-6 w-full rounded-2xl bg-gradient-to-r from-cyan-400 to-blue-500 py-3.5 text-xs font-black text-slate-950 shadow-lg shadow-cyan-950/40 hover:from-cyan-300 hover:to-blue-400"
               >
-                नया प्रयास शुरू करें
+                Final Submit
               </button>
-            </>
-          )}
-        </section>
-
-        {!submitted && (
-          <aside className="h-fit rounded-2xl border border-white/10 bg-white/[0.03] p-5">
-            <h2 className="font-bold">प्रश्न सूची</h2>
-            <div className="mt-4 grid grid-cols-5 gap-2">
-              {questions.map((q, index) => {
-                const answered = Boolean(answers[q.id]);
-                const review = Boolean(marked[q.id]);
-
-                return (
-                  <button
-                    key={q.id}
-                    onClick={() => setCurrent(index)}
-                    className={`rounded-lg border p-2 text-sm font-bold ${
-                      index === current
-                        ? "border-cyan-300 bg-cyan-400/20"
-                        : review
-                        ? "border-amber-300 bg-amber-400/10"
-                        : answered
-                        ? "border-emerald-400/60 bg-emerald-400/10"
-                        : "border-white/10"
-                    }`}
-                  >
-                    {q.id}
-                  </button>
-                );
-              })}
             </div>
-            <div className="mt-5 space-y-2 text-sm text-slate-400">
-              <p>उत्तर दिए: {attempted}</p>
-              <p>Review के लिए चिह्नित: {Object.values(marked).filter(Boolean).length}</p>
-              <p>बाकी प्रश्न: {questions.length - attempted}</p>
+          </div>
+        ) : (
+          /* Detailed Result & Solutions Section */
+          <div className="space-y-8 animate-fadeIn">
+            <div className="rounded-3xl border border-cyan-400/30 bg-gradient-to-br from-cyan-500/10 via-blue-600/10 to-purple-600/10 p-6 sm:p-10 shadow-2xl">
+              <span className="rounded-full border border-emerald-400/40 bg-emerald-400/10 px-4 py-1.5 text-xs font-black text-emerald-300">
+                🎉 TEST SUBMITTED SUCCESSFULLY
+              </span>
+              <h2 className="mt-4 text-3xl font-black sm:text-5xl">Your Result Summary</h2>
+              
+              <div className="mt-8 grid gap-4 sm:grid-cols-4">
+                <div className="rounded-2xl border border-white/10 bg-black/30 p-5">
+                  <p className="text-xs text-slate-400">Correct Answers</p>
+                  <p className="mt-2 text-3xl font-black text-emerald-400">{results.correct}</p>
+                </div>
+                <div className="rounded-2xl border border-white/10 bg-black/30 p-5">
+                  <p className="text-xs text-slate-400">Incorrect Answers</p>
+                  <p className="mt-2 text-3xl font-black text-rose-400">{results.incorrect}</p>
+                </div>
+                <div className="rounded-2xl border border-white/10 bg-black/30 p-5">
+                  <p className="text-xs text-slate-400">Unattempted</p>
+                  <p className="mt-2 text-3xl font-black text-slate-400">{results.unattempted}</p>
+                </div>
+                <div className="rounded-2xl border border-cyan-400/40 bg-cyan-400/10 p-5">
+                  <p className="text-xs text-cyan-300">Total Marks</p>
+                  <p className="mt-2 text-3xl font-black text-cyan-200">{results.score}</p>
+                </div>
+              </div>
             </div>
-            <button
-              onClick={() => {
-                if (window.confirm("क्या आप परीक्षा जमा करना चाहते हैं? इसके बाद उत्तर नहीं बदल सकेंगे।")) {
-                  setSubmitted(true);
-                }
-              }}
-              className="mt-6 w-full rounded-xl bg-emerald-400 px-4 py-3 font-black text-slate-950"
-            >
-              परीक्षा Submit करें
-            </button>
-          </aside>
+
+            <div className="border-t border-white/10 pt-8">
+              <h3 className="text-2xl font-black text-cyan-300">Detailed Solutions & Explanations (उत्तर व्याख्या)</h3>
+              <p className="mt-1 text-sm text-slate-400">प्रत्येक प्रश्न का सही उत्तर एवं खान ग्लोबल स्टडीज़ पैटर्न पर विस्तृत व्याख्या:</p>
+
+              <div className="mt-6 space-y-6">
+                {questionsData.map((item, idx) => {
+                  const userAns = userAnswers[item.id];
+                  const isCorrect = userAns === item.correctAnswer;
+
+                  return (
+                    <article
+                      key={item.id}
+                      className={`rounded-3xl border p-6 sm:p-8 transition ${
+                        isCorrect
+                          ? "border-emerald-500/30 bg-[#081711]"
+                          : userAns
+                          ? "border-rose-500/30 bg-[#1a0c10]"
+                          : "border-white/10 bg-[#0d1424]"
+                      }`}
+                    >
+                      <div className="flex items-center justify-between border-b border-white/10 pb-4">
+                        <span className="font-black text-sm text-cyan-300">Question {idx + 1}</span>
+                        <span
+                          className={`rounded-xl border px-3 py-1 text-xs font-black ${
+                            isCorrect
+                              ? "border-emerald-400/40 bg-emerald-400/10 text-emerald-300"
+                              : userAns
+                              ? "border-rose-400/40 bg-rose-400/10 text-rose-300"
+                              : "border-slate-500/40 bg-slate-500/10 text-slate-400"
+                          }`}
+                        >
+                          {isCorrect ? "✓ Correct" : userAns ? "✗ Incorrect" : "● Unattempted"}
+                        </span>
+                      </div>
+
+                      <p className="mt-4 font-semibold text-base sm:text-lg">{item.question}</p>
+                      {item.statements && (
+                        <div className="mt-3 space-y-1.5 rounded-2xl border border-white/10 bg-black/20 p-4 text-sm text-slate-300">
+                          {item.statements.map((s, i) => (
+                            <p key={i}>{s}</p>
+                          ))}
+                        </div>
+                      )}
+                      {item.subQuestion && <p className="mt-2 text-sm font-bold text-cyan-200">{item.subQuestion}</p>}
+
+                      <div className="mt-4 flex flex-wrap gap-4 text-sm font-bold">
+                        <span className="text-slate-400">
+                          Your Answer: <span className={isCorrect ? "text-emerald-400" : "text-rose-400"}>{userAns ? userAns.toUpperCase() : "None"}</span>
+                        </span>
+                        <span className="text-emerald-400">
+                          Correct Answer: <span className="underline">{item.correctAnswer.toUpperCase()}</span>
+                        </span>
+                      </div>
+
+                      {/* Detailed Explanation Box */}
+                      <div className="mt-5 rounded-2xl border border-cyan-400/25 bg-cyan-400/[0.06] p-5">
+                        <p className="text-xs font-black tracking-wider text-cyan-300 uppercase">💡 Vyaakhya / Explanation:</p>
+                        <p className="mt-2 text-sm leading-relaxed text-slate-200 whitespace-pre-line">{item.explanation}</p>
+                      </div>
+                    </article>
+                  );
+                })}
+              </div>
+            </div>
+          </div>
         )}
       </div>
     </main>
