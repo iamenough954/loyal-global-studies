@@ -65,7 +65,7 @@ export default function MockTestsPage() {
           <div className="border-b border-white/10 bg-gradient-to-r from-cyan-500/10 via-transparent to-purple-500/10 p-6 sm:p-8">
             <div className="flex flex-wrap items-center gap-3">
               <span className="rounded-xl bg-cyan-400/20 px-3.5 py-1.5 text-xs font-black tracking-wider text-cyan-300 border border-cyan-400/30">
-                UPPCS PRELIMS
+                UPSSSC PET 10-YEAR SERIES & UPPCS PRELIMS
               </span>
               <span className="rounded-xl border border-amber-400/30 bg-amber-400/10 px-3.5 py-1.5 text-xs font-black tracking-wider text-amber-300">
                 PAPER SETUP IN PROGRESS
